@@ -1,0 +1,3 @@
+[submodule "carla"]
+	path = carla
+	url = https://github.com/carla-simulator/carla.git
