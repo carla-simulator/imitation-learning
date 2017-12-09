@@ -6,15 +6,6 @@ from random import randint
 
 
 
-import tensorflow as tf
-import numpy as np
-
-
-
-
-
-
-
 def weight_ones(shape, name):
     initial = tf.constant(1.0, shape=shape,name=name)
     return tf.Variable(initial)
@@ -222,7 +213,7 @@ def  get_vbp_images(self,xc):
 
 
 
-def load_imitation_learning_network(tf, input_image,input_data, input_size,dropout,config):
+def load_imitation_learning_network( input_image,input_data, input_size,dropout):
 
 
 	
@@ -275,7 +266,7 @@ def load_imitation_learning_network(tf, input_image,input_data, input_size,dropo
 
 	""" Speed (measurements)"""
 	with tf.name_scope("Speed"):
-		speed = input_data[] # get the speed from input data
+		speed = input_data[1] # get the speed from input data
 		speed = network_manager.fc_block(speed,128)
 		speed = network_manager.fc_block(speed,128)
 
