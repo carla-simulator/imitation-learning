@@ -25,7 +25,7 @@ from carla.sensor import Camera
 from carla.settings import CarlaSettings
 from carla.tcp import TCPConnectionError
 from carla.util import print_over_same_line
-from benchmarks.agent import Agent
+from carla.benchmarks.agent import Agent
 
 from carla import image_converter
 from agents.imitation.imitation_learning_network import load_imitation_learning_network

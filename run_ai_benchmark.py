@@ -5,8 +5,8 @@ import sys
 
 sys.path.append('carla/PythonClient')
 
-from benchmarks.corl import CoRL
-from benchmarks.agent import Agent
+from carla.benchmarks.corl import CoRL
+from carla.benchmarks.agent import Agent
 
 from carla.tcp import TCPConnectionError
 from carla.client import make_carla_client
