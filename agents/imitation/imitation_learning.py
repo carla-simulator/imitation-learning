@@ -1,23 +1,22 @@
 
 import sys
 import os
-
-import scipy
 import re
-
 import math
 
-import tensorflow as tf
+
 import time
+import copy
+import random
+import scipy
+
+import tensorflow as tf
+import numpy as np
+from tensorflow.contrib.framework.python.framework.checkpoint_utils import list_variables
+
+slim = tf.contrib.slim
 
 
-
-sys.path.append('carla/PythonClient')
-
-
-import pygame
-from pygame.locals import *
-sys.path.append('../train')
 
 from carla import sensor
 from carla.client import CarlaClient
@@ -26,81 +25,14 @@ from carla.settings import CarlaSettings
 from carla.tcp import TCPConnectionError
 from carla.util import print_over_same_line
 from carla.benchmarks.agent import Agent
-
 from carla import image_converter
-from agents.imitation.imitation_learning_network import load_imitation_learning_network
-import numpy as np
-
-from tensorflow.contrib.framework.python.framework.checkpoint_utils import list_variables
-#from codification import *
-
-import copy
-import random
-
-slim = tf.contrib.slim
-
-
 from carla.carla_server_pb2 import Control
 
-"""
-number_of_seg_classes = 5
-classes_join = {0:2,1:2,2:2,3:2,5:2,12:2,9:2,11:2,4:0,10:1,8:3,6:3,7:4}
 
-
-def join_classes(labels_image):
-  
-  compressed_labels_image = np.copy(labels_image) 
-  for key,value in classes_join.iteritems():
-    compressed_labels_image[np.where(labels_image==key)] = value
-
-
-  return compressed_labels_image
+from agents.imitation.imitation_learning_network import load_imitation_learning_network
 
 
 
-def restore_session(sess,saver,models_path):
-
-  ckpt = 0
-  if not os.path.exists(models_path):
-    os.mkdir( models_path)
-  
-  ckpt = tf.train.get_checkpoint_state(models_path)
-  if ckpt:
-    print 'Restoring from ',ckpt.model_checkpoint_path  
-    saver.restore(sess,ckpt.model_checkpoint_path)
-  else:
-    ckpt = 0
-
-  return ckpt
-
-
-def load_system(config):
-  config.batch_size =1
-  config.is_training=False
-
-  training_manager= TrainManager(config,None)
-  if hasattr(config, 'plug_segmentation_soft'):
-
-    training_manager.build_seg_network_dif()
-  else:
-    if hasattr(config, 'plug_segmentation'):
-
-      training_manager.build_seg_network()
-    else:
-      if hasattr(config, 'input_one_hot'):
-        training_manager.build_network_one_hot()
-      else:
-        training_manager.build_network()
-
-
-
-  
-  
-
-
-
-  return training_manager
-"""
 """ Initializing Session as variables that control the session """
 
 
@@ -110,7 +42,7 @@ def load_system(config):
 class ImitationLearning(Agent):
 
 
-  def __init__(self,city_name,memory_fraction=0.35,image_cut =[115,510]):
+  def __init__(self,city_name,memory_fraction=0.25,image_cut =[115,510]):
 
 
     Agent.__init__(self,city_name)
@@ -201,15 +133,21 @@ class ImitationLearning(Agent):
 
 
 
-    direction,_ = self._planner.get_next_command((measurements.player_measurements.transform.location.x,measurements.player_measurements.transform.location.y,22),\
-      (measurements.player_measurements.transform.orientation.x,measurements.player_measurements.transform.orientation.y,measurements.player_measurements.transform.orientation.z),\
-      (target.location.x,target.location.y,22),(1.0,0.02,-0.001))
+    direction = self._planner.get_next_command(
+      (measurements.player_measurements.transform.location.x,
+        measurements.player_measurements.transform.location.y,22),
+      (measurements.player_measurements.transform.orientation.x,
+        measurements.player_measurements.transform.orientation.y,
+        measurements.player_measurements.transform.orientation.z),
+      (target.location.x,target.location.y,22),
+      (target.orientation.x,target.orientation.y,-0.001))
 
 
    
 
 
-    control = self._compute_action(sensor_data['CameraRGB'].data,measurements.player_measurements.forward_speed,direction)
+    control = self._compute_action(sensor_data['CameraRGB'].data,
+        measurements.player_measurements.forward_speed,direction)
 
 
 
@@ -224,11 +162,11 @@ class ImitationLearning(Agent):
 
     rgb_image = rgb_image[self._image_cut[0]:self._image_cut[1],:] 
 
-    image_input = scipy.misc.imresize(rgb_image,[self._image_size[0],self._image_size[1]])
+    image_input = scipy.misc.imresize(rgb_image,[self._image_size[0],
+                                        self._image_size[1]])
 
     
-    #image_result = Image.fromarray(sensor)
-    #image_result.save('image.png')
+
 
     image_input = image_input.astype(np.float32)
     image_input = np.multiply(image_input, 1.0 / 255.0)
@@ -240,10 +178,10 @@ class ImitationLearning(Agent):
     # This a bit biased
 
     if brake < 0.1:
-      brake =0.0
+      brake = 0.0
 
     if acc> brake:
-      brake =0.0
+      brake = 0.0
     if speed > 35.0 and brake == 0.0:
       acc=0.0
       
@@ -260,8 +198,6 @@ class ImitationLearning(Agent):
 
     return control
   
-  # The augmentation should be dependent on speed
-
 
   def _control_function(self,image_input,speed,control_input,sess):
 
@@ -308,22 +244,6 @@ class ImitationLearning(Agent):
     predicted_acc = (output_all[0][1])
 
     predicted_brake = (output_all[0][2])
-
-    #predicted_speed =  sess.run(branches[4], feed_dict=feedDict)
-    #predicted_speed = predicted_speed[0][0]
-    #real_speed = speed*config.speed_factor
-    #print ' REAL PREDICTED ',predicted_speed*config.speed_factor
-
-    #print ' REAL SPEED ',real_speed
-    #real_predicted =predicted_speed*config.speed_factor
-    #if real_speed < 5.0 and real_predicted > 6.0:  # If (Car Stooped) and ( It should not have stoped)
-    #  print 'BOOSTING'
-    #  predicted_acc =  1*(20.0/config.speed_factor -speed) + predicted_acc  #print "DURATION"
-
-    #  predicted_brake=0.0
-
-    #  predicted_acc = predicted_acc[0][0]
-
 
       
     return  predicted_steers,predicted_acc,predicted_brake

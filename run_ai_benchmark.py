@@ -41,13 +41,6 @@ if(__name__ == '__main__'):
 		default=2000,
 		type=int,
 		help='TCP port to listen to (default: 2000)')
-	argparser.add_argument(
-		'-ai', '--ai',
-		metavar='AI',
-		default='Imitation',
-		type=str,
-		help='Select the AI to be used')
-
 
 	args = argparser.parse_args()
 
@@ -56,16 +49,13 @@ if(__name__ == '__main__'):
 
 	logging.info('listening to server %s:%s', args.host, args.port)
 
+	agent = ImitationLearning('Town02')
+
 	while True:
 		try:
+
 			with make_carla_client(args.host, args.port) as client:
-				corl= CoRL('Town01','test')
-
-				if args.ai == 'Imitation':
-					agent = ImitationLearning('Town01')
-				else:
-					print 'Not usable AI'
-
+				corl= CoRL('Town02','TestAI2')
 
 				results = corl.benchmark_agent(agent,client)
 				corl.plot_summary_test()
