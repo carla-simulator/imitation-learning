@@ -175,13 +175,15 @@ class ImitationLearning(Agent):
     steer,acc,brake = self._control_function(image_input,speed,direction,self._sess)
 
 
-    # This a bit biased
+    # This a bit biased, but is to avoid fake breaking
 
     if brake < 0.1:
       brake = 0.0
 
     if acc> brake:
       brake = 0.0
+
+    # We limit speed to 35 km/h to avoid  
     if speed > 35.0 and brake == 0.0:
       acc=0.0
       
@@ -208,8 +210,7 @@ class ImitationLearning(Agent):
     dout = self._dout
     input_speed = self._input_data[1]
     input_control =  self._input_data[0]
-    #image_result = Image.fromarray((image_input*255).astype(np.uint8))
-    #image_result.save('image.png')
+
 
     image_input = image_input.reshape((1,self._image_size[0],self._image_size[1],self._image_size[2]))
 
@@ -227,7 +228,7 @@ class ImitationLearning(Agent):
       all_net = branches[1]
 
     print control_input
-    #print clip_input.shape
+
 
 
         

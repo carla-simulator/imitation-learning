@@ -1,15 +1,14 @@
-import tensorflow as tf
+
 import numpy as np
 from random import randint
 
 
-
+import tensorflow as tf
 
 
 def weight_ones(shape, name):
     initial = tf.constant(1.0, shape=shape,name=name)
     return tf.Variable(initial)
-    #return tf.get_variable(name=name,initializer= tf.constant(1.0,shape=shape),trainable=False)
 
 
 def weight_xavi_init(shape,name):
@@ -19,11 +18,10 @@ def weight_xavi_init(shape,name):
 
 
 def bias_variable( shape,name):  
-    #initial = tf.constant(0.1, shape=shape,name=name)
+
     initial = tf.constant(0.1, shape=shape,name=name)
     return tf.Variable(initial)
-    #initial = tf.constant(0.1, shape=shape,name=name)
-    #return tf.get_variable(name=name,initializer= tf.constant(0.1,shape=shape))
+
 
 
 
@@ -68,7 +66,8 @@ class Network(object):
         self._conv_kernels.append(kernel_size)
         self._conv_strides.append(stride)
         
-        conv_res = tf.add(tf.nn.conv2d(x, weights, [1, stride, stride, 1], padding=padding_in,name='conv2d_'+str(self._count_conv)),bias,name='add_'+str(self._count_conv))
+        conv_res = tf.add(tf.nn.conv2d(x, weights, [1, stride, stride, 1], padding=padding_in,
+            name='conv2d_'+str(self._count_conv)),bias,name='add_'+str(self._count_conv))
 
         self._features['conv_block'+str(self._count_conv-1)] = conv_res
         
@@ -78,11 +77,13 @@ class Network(object):
 
     def max_pool(self,x, ksize=3, stride=2):
         self._count_pool += 1
-        return tf.nn.max_pool(x,ksize=[1, ksize, ksize, 1], strides=[1, stride, stride, 1], padding='SAME',name='max_pool'+str(self._count_pool))
+        return tf.nn.max_pool(x,ksize=[1, ksize, ksize, 1], strides=[1, stride, stride, 1], 
+            padding='SAME',name='max_pool'+str(self._count_pool))
 
     def bn(self,x):
         self._count_bn += 1
-        return tf.contrib.layers.batch_norm(x,is_training=False,updates_collections=None,scope='bn'+str(self._count_bn))
+        return tf.contrib.layers.batch_norm(x,is_training=False,
+            updates_collections=None,scope='bn'+str(self._count_bn))
 
     def activation(self,x):
         self._count_activations+=1
@@ -92,7 +93,8 @@ class Network(object):
     def dropout(self,x):
         print "Dropout", self._count_dropouts
         self._count_dropouts+=1
-        output = tf.nn.dropout(x, self._dropout_vec[self._count_dropouts-1],name='dropout'+str(self._count_dropouts))
+        output = tf.nn.dropout(x, self._dropout_vec[self._count_dropouts-1],
+            name='dropout'+str(self._count_dropouts))
         
         return output
 
@@ -141,74 +143,6 @@ class Network(object):
 
     def get_feat_tensors_dict(self):
         return self._features
-
-        self._count_lstm +=1
-
-        filters_in = x[0].get_shape()[-1]
-
-
-        lstm_cells =  tf.nn.rnn_cell.LSTMCell(int(filters_in), forget_bias=1.0)
-
-        """ For 200 images for example, with a sequence size of 50 , there are four sequences being trained here """
-
-
-        outputs, states_1 = tf.nn.rnn(lstm_cells, x, dtype=tf.float32, scope='lstm' +str(self._count_lstm))
-
-        return outputs
-
-
-"""
-def  get_vbp_images(self,xc):
-       
-        with tf.name_scope('vbp'):
-            for i in reversed(range(self._count_conv)): # reversely go through the feature maps
-
-                if i == self._count_conv-1:
-                    feature_map = xc
-                else:
-                    feature_map = self._features['conv_block'+str(i)]  # Get this one
-
-                print feature_map
-                feature_map = tf.reduce_mean(feature_map,3,keep_dims=True) # Apply average of all feature maps.
-                print feature_map
-
-
-                print i
-                print len(self._conv_kernels)
-                print self._conv_kernels
-                print self._conv_strides
-                if i != 0:
-                    next_shape = tf.shape(self._features['conv_block'+str(i-1)])
-                else:
-                    next_shape = self._image_shape
-                batch_size = next_shape[0]
-                shape1 = next_shape[1]
-                shape2 = next_shape[2]
-                output_shape_tensor =tf.convert_to_tensor([batch_size,shape1,shape2,1])
-
-         
-
-                deconv_weights = weight_ones([self._conv_kernels[i],self._conv_kernels[i], 1, 1],'const_deconv'+str(i))
-
-  
-                print i 
-                if i == self._count_conv-1:
-                    feature_map_up = tf.nn.conv2d_transpose(feature_map,deconv_weights,\
-                  output_shape_tensor, [1, self._conv_strides[i],self._conv_strides[i], 1],\
-                padding='VALID', name='deconv'+str(i))   # apply a deconvolution
-
-                    vbp_image = feature_map_up
-                else:
-
-                    vbp_image = tf.multiply(vbp_image , feature_map) # multiply with the last one
-                    vbp_image = tf.nn.conv2d_transpose(vbp_image,deconv_weights,\
-                  output_shape_tensor, [1, self._conv_strides[i],self._conv_strides[i], 1],\
-                padding='VALID', name='deconv'+str(i))   # apply a deconvolution
-
-
-                print vbp_image
-        return vbp_image
-"""
 
 
 
@@ -261,8 +195,7 @@ def load_imitation_learning_network( input_image,input_data, input_size,dropout)
 	x = network_manager.fc_block(x,512)
 
 	"""Process Control"""
-	#control = tf.reshape(control, [-1, int(np.prod(control.get_shape()[1:]))],name = 'reshape_control')
-	#print control
+
 
 	""" Speed (measurements)"""
 	with tf.name_scope("Speed"):
@@ -296,14 +229,6 @@ def load_imitation_learning_network( input_image,input_data, input_size,dropout)
 		print branch_output
 
 
-	#weights = network_manager.get_weigths_dict()
 
-	#features = network_manager.get_feat_tensors_dict()
-	
-	#print vis_images
 
-	#print vis_images.get_shape()
-
-	#vis_images = tf.div(vis_images  -tf.reduce_min(vis_images),tf.reduce_max(vis_images) -tf.reduce_min(vis_images))
-
-	return branches#,features,weights
+	return branches
