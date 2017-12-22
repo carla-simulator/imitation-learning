@@ -1,4 +1,4 @@
-CARLA Imitation Learning
+Conditional Imitation Learning at CARLA
 ===============
 
 Repository to store conditional imitation learning based
@@ -7,8 +7,11 @@ AI that runs on carla.
 Requirements
 -------
 tensorflow_gpu 1.1 or more
+
 numpy
+
 scipy
+
 carla 0.7.1
 
 
@@ -41,5 +44,3 @@ Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez
   year={2017}
 }
 
-```
-Please check the paper at :
