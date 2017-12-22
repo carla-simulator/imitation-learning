@@ -1,13 +1,12 @@
 
 import numpy as np
-from random import randint
 
 
 import tensorflow as tf
 
 
 def weight_ones(shape, name):
-    initial = tf.constant(1.0, shape=shape,name=name)
+    initial = tf.constant(1.0, shape=shape, name=name)
     return tf.Variable(initial)
 
 

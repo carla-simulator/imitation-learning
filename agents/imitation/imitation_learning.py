@@ -1,31 +1,21 @@
 
-import sys
 import os
-import re
-import math
+
 
 
 import time
-import copy
-import random
+
 import scipy
 
 import tensorflow as tf
 import numpy as np
-from tensorflow.contrib.framework.python.framework.checkpoint_utils import list_variables
+
 
 slim = tf.contrib.slim
 
 
 
-from carla import sensor
-from carla.client import CarlaClient
-from carla.sensor import Camera
-from carla.settings import CarlaSettings
-from carla.tcp import TCPConnectionError
-from carla.util import print_over_same_line
 from carla.benchmarks.agent import Agent
-from carla import image_converter
 from carla.carla_server_pb2 import Control
 
 
