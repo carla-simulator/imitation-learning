@@ -214,17 +214,18 @@ class ImitationLearning(Agent):
 
     image_input = image_input.reshape((1,self._image_size[0],self._image_size[1],self._image_size[2]))
 
+    # Normalize with the maximum speed from the training set ( 90 km/h)
     speed = np.array(speed/90.0)
 
     speed = speed.reshape((1,1))
 
-    if control_input ==2 or control_input==0.0:
+    if control_input == 2 or control_input == 0.0:
       all_net = branches[0]
     elif control_input == 3:
       all_net = branches[2]
     elif control_input == 4:
       all_net = branches[3]
-    elif control_input == 5:
+    else:
       all_net = branches[1]
 
     print control_input

@@ -3,10 +3,9 @@ import argparse
 import logging
 import sys
 
-sys.path.append('carla/PythonClient')
 
-from carla.benchmarks.corl import CoRL
-from carla.benchmarks.agent import Agent
+from carla.benchmarks.corl_2017 import CoRL2017
+
 
 from carla.tcp import TCPConnectionError
 from carla.client import make_carla_client
@@ -41,6 +40,18 @@ if(__name__ == '__main__'):
 		default=2000,
 		type=int,
 		help='TCP port to listen to (default: 2000)')
+	argparser.add_argument(
+		'-c', '--city-name',
+		metavar='C',
+		default='Town01',
+		help='The town that is going to be used on benchmark'
+			 + '(needs to match active town in server, options: Town01 or Town02)')
+	argparser.add_argument(
+		'-n', '--log_name',
+		metavar='T',
+		default='test',
+		help='The name of the log file to be created by the scripts'
+	)
 
 	args = argparser.parse_args()
 
@@ -49,13 +60,13 @@ if(__name__ == '__main__'):
 
 	logging.info('listening to server %s:%s', args.host, args.port)
 
-	agent = ImitationLearning('Town02')
+	agent = ImitationLearning(args.city_name)
 
 	while True:
 		try:
 
 			with make_carla_client(args.host, args.port) as client:
-				corl= CoRL('Town02','TestAI2')
+				corl= CoRL2017(args.city_name,args.log_name)
 
 				results = corl.benchmark_agent(agent,client)
 				corl.plot_summary_test()
@@ -69,10 +80,3 @@ if(__name__ == '__main__'):
 		except Exception as exception:
 			logging.exception(exception)
 			sys.exit(1)
-
-
-
-	
-
-
-# DETECT AN ERROR AND WRITE THE COMPLETE SUMMARY ALREADY

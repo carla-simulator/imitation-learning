@@ -50,7 +50,7 @@ class Network(object):
 
     """ Our conv is currently using bias """
 
-    def conv(self,x, kernel_size,stride,output_size,padding_in='SAME'):
+    def conv(self, x, kernel_size,stride,output_size,padding_in='SAME'):
 
         self._count_conv += 1
         
