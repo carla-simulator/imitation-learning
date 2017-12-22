@@ -1,7 +1,7 @@
 Conditional Imitation Learning at CARLA
 ===============
 
-Repository to store conditional imitation learning based
+Repository to store the conditional imitation learning based
 AI that runs on carla.
 
 Requirements
@@ -17,22 +17,22 @@ carla 0.7.1
 
 Running
 ------
-To run basically run:
+Basically run:
 
 $ python run_CIL.py
 
-Note that you must have a carla server running 
-To check the other opens runn
+Note that you must have a carla server running  <br>
+To check the other options run
 
 $ python run_CIL.py --help
 
 Paper
 -----
 
-If you use this conditional imitation learning paper, please cite our Arxiv paper.
+If you use the conditional imitation learning, please cite our Arxiv paper.
 
-_End-to-end driving via conditional imitation learning,
-Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez, Antonio and Koltun, Vladlen; arXiv preprint arXiv:1710.02410
+_End-to-end driving via conditional imitation learning, <br>
+Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez, Antonio and Koltun, Vladlen;  <br> arXiv preprint arXiv:1710.02410
 [[PDF](http://vladlen.info/papers/conditional-imitation.pdf)]
 
 
