@@ -31,8 +31,8 @@ Paper
 
 If you use the conditional imitation learning, please cite our Arxiv paper.
 
-_End-to-end driving via conditional imitation learning, <br>
-Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez, Antonio and Koltun, Vladlen;  <br> arXiv preprint arXiv:1710.02410
+End-to-end driving via conditional imitation learning, <br>
+Codevilla, Felipe and Müller, Matthias and Dosovitskiy, Alexey and López, Antonio and Koltun, Vladlen;  <br> arXiv preprint arXiv:1710.02410
 [[PDF](http://vladlen.info/papers/conditional-imitation.pdf)]
 
 
