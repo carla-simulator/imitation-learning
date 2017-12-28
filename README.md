@@ -3,7 +3,7 @@ Conditional Imitation Learning at CARLA
 
 Repository to store the conditional imitation learning based
 AI that runs on carla. The trained model is the one used 
-on CARLA paper.
+on "CARLA: An Open Urban Driving Simulator" paper.
 
 Requirements
 -------
