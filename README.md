@@ -36,40 +36,40 @@ Dataset
 The dataset is stored on HDF5 files.
 Each HDF5 file contains 200 data points.
 The HDF5 contains two datasets:
-'images_center':
+'images_center': <br>
 The RGB images stored at 200x88 resolution
 
-'targets':
+'targets': <br>
 All the controls and measurements collected. 
 They are stored on the dataset vector.
 
-1.Steer, float
-2.Gas, float
-3.Brake, float
-4.Hand Brake, boolean
-5.Reverse Gear, boolean
-6.Steer Noise, float
-7.Gas Noise, float
-8.Brake Noise, float
-9.Position X, float
-10.Position Y, float
-11.Speed, float
-12.Collision Other, float
-13.Collision Pedestrian, float
-14.Collision Car, float
-15. Opposite Lane Inter, float
-16. Sidewalk Intersect, float
-17.Acceleration X,float
-18. Acceleration Y, float
-19. Acceleration Z, float
-20. Platform time, float
-21. Game Time, float
-22. Orientation X, float
-23. Orientation Y, float
-24. Orientation Z, float
-25. Control signal, int ( 2 Follow lane, 3 Left, 4 Right, 5 Straight)
-26. Noise, Boolean ( If the noise ( perturbatin) is activated)
-27. Camera ( which camera was used)
+1.Steer, float <br>
+2.Gas, float <br>
+3.Brake, float <br>
+4.Hand Brake, boolean <br>
+5.Reverse Gear, boolean <br>
+6.Steer Noise, float <br>
+7.Gas Noise, float <br>
+8.Brake Noise, float <br>
+9.Position X, float <br>
+10.Position Y, float <br>
+11.Speed, float <br>
+12.Collision Other, float <br>
+13.Collision Pedestrian, float <br>
+14.Collision Car, float <br>
+15. Opposite Lane Inter, float <br>
+16. Sidewalk Intersect, float <br>
+17.Acceleration X,float <br>
+18. Acceleration Y, float <br>
+19. Acceleration Z, float <br>
+20. Platform time, float <br>
+21. Game Time, float <br>
+22. Orientation X, float <br>
+23. Orientation Y, float <br>
+24. Orientation Z, float <br>
+25. Control signal, int ( 2 Follow lane, 3 Left, 4 Right, 5 Straight) <br>
+26. Noise, Boolean ( If the noise ( perturbatin) is activated) <br>
+27. Camera ( which camera was used) <br>
 
 
 
