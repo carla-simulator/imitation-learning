@@ -15,6 +15,8 @@ scipy
 
 carla 0.7.1
 
+future
+
 PIL
 
 
