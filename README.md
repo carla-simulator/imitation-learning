@@ -35,7 +35,7 @@ $ python run_CIL.py --help
 Dataset
 ------
 
-[The dataset can be downloaded here](https://drive.google.com/file/d/1hloAeyamYn-H6MfV1dRtY1gJPhkR55sY/view)
+[The dataset can be downloaded here](https://drive.google.com/file/d/1hloAeyamYn-H6MfV1dRtY1gJPhkR55sY/view) 14 GB
 
 The dataset is stored on HDF5 files.
 Each HDF5 file contains 200 data points.
