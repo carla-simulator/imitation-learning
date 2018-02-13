@@ -81,10 +81,10 @@ They are stored on the "dataset" vector.
 Paper
 -----
 
-If you use the conditional imitation learning, please cite our Arxiv paper.
+If you use the conditional imitation learning, please cite our ICRA 2018 paper.
 
 End-to-end driving via conditional imitation learning, <br>
-Codevilla, Felipe and Müller, Matthias and Dosovitskiy, Alexey and López, Antonio and Koltun, Vladlen;  <br> arXiv preprint arXiv:1710.02410
+Codevilla, Felipe and Müller, Matthias and Dosovitskiy, Alexey and López, Antonio and Koltun, Vladlen; 
 [[PDF](http://vladlen.info/papers/conditional-imitation.pdf)]
 
 
