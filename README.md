@@ -26,7 +26,7 @@ Basically run:
 
 $ python run_CIL.py
 
-Note that you must have a carla server running  <br>
+Note that you must have a carla server running . <br>
 To check the other options run
 
 $ python run_CIL.py --help
@@ -37,15 +37,15 @@ Dataset
 
 [The dataset can be downloaded here](https://drive.google.com/file/d/1hloAeyamYn-H6MfV1dRtY1gJPhkR55sY/view) 24 GB
 
-The dataset is stored on HDF5 files.
+The data is stored on HDF5 files.
 Each HDF5 file contains 200 data points.
-The HDF5 contains two datasets:
+The HDF5 contains two "datasets":
 'images_center': <br>
 The RGB images stored at 200x88 resolution
 
 'targets': <br>
 All the controls and measurements collected. 
-They are stored on the dataset vector.
+They are stored on the "dataset" vector.
 
 1. Steer, float 
 2. Gas, float
@@ -92,7 +92,8 @@ Codevilla, Felipe and Müller, Matthias and Dosovitskiy, Alexey and López, Anto
 @article{codevilla2017end,
   title={End-to-end driving via conditional imitation learning},
   author={Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez, Antonio and Koltun, Vladlen},
-  journal={arXiv preprint arXiv:1710.02410},
-  year={2017}
+  booktitle={Robotics and Automation (ICRA), 2018 IEEE International Conference on},
+  year={2018},
+  organization={IEEE}
 }
 
