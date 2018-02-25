@@ -83,17 +83,18 @@ Paper
 
 If you use the conditional imitation learning, please cite our ICRA 2018 paper.
 
-End-to-end driving via conditional imitation learning, <br>
-Codevilla, Felipe and Müller, Matthias and Dosovitskiy, Alexey and López, Antonio and Koltun, Vladlen; 
+End-to-end Driving via Conditional Imitation Learning. <br> Codevilla,
+Felipe and Müller, Matthias and López, Antonio and Koltun, Vladlen and
+Dosovitskiy, Alexey. ICRA 2018
 [[PDF](http://vladlen.info/papers/conditional-imitation.pdf)]
 
 
 ```
-@article{codevilla2017end,
-  title={End-to-end driving via conditional imitation learning},
-  author={Codevilla, Felipe and M{\"u}ller, Matthias and Dosovitskiy, Alexey and L{\'o}pez, Antonio and Koltun, Vladlen},
-  booktitle={Robotics and Automation (ICRA), 2018 IEEE International Conference on},
+@inproceedings{Codevilla2018,
+  title={End-to-end Driving via Conditional Imitation Learning},
+  author={Codevilla, Felipe and M{\"u}ller, Matthias and L{\'o}pez,
+Antonio and Koltun, Vladlen and Dosovitskiy, Alexey},
+  booktitle={International Conference on Robotics and Automation (ICRA)},
   year={2018},
-  organization={IEEE}
 }
 
