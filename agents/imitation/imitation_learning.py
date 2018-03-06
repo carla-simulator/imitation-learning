@@ -15,7 +15,7 @@ from agents.imitation.imitation_learning_network import load_imitation_learning_
 
 class ImitationLearning(Agent):
 
-    def __init__(self, city_name, memory_fraction=0.25, image_cut=[115, 510]):
+    def __init__(self, city_name, avoid_stopping, memory_fraction=0.25, image_cut=[115, 510]):
 
         Agent.__init__(self, city_name)
 
@@ -30,6 +30,7 @@ class ImitationLearning(Agent):
         config_gpu.gpu_options.per_process_gpu_memory_fraction = memory_fraction
 
         self._image_size = (88, 200, 3)
+        self._avoid_stopping =  avoid_stopping
 
         self._sess = tf.Session(config=config_gpu)
 
@@ -166,5 +167,21 @@ class ImitationLearning(Agent):
         predicted_acc = (output_all[0][1])
 
         predicted_brake = (output_all[0][2])
+
+        if self._avoid_stopping:
+            predicted_speed = sess.run(branches[4], feed_dict=feedDict)
+            predicted_speed = predicted_speed[0][0]
+            real_speed = speed * 90.0
+
+            real_predicted = predicted_speed * 90.0
+            if real_speed < 5.0 and real_predicted > 6.0:
+                # If (Car Stooped) and ( It should not have stopped, use the speed prediction branch for that
+
+                predicted_acc = 1 * (20.0 / 90.0 - speed) + predicted_acc
+
+                predicted_brake = 0.0
+
+                predicted_acc = predicted_acc[0][0]
+
 
         return predicted_steers, predicted_acc, predicted_brake

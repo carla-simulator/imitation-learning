@@ -46,6 +46,12 @@ if (__name__ == '__main__'):
         help='The name of the log file to be created by the scripts'
     )
 
+    argparser.add_argument(
+         '--avoid-stopping',
+        action='store_true',
+        help=' Uses the speed prediction branch to avoid unwanted agent stops'
+    )
+
     args = argparser.parse_args()
 
     log_level = logging.DEBUG if args.debug else logging.INFO
@@ -53,14 +59,13 @@ if (__name__ == '__main__'):
 
     logging.info('listening to server %s:%s', args.host, args.port)
 
-    agent = ImitationLearning(args.city_name)
+    agent = ImitationLearning(args.city_name,args.avoid_stopping)
 
     while True:
         try:
 
             with make_carla_client(args.host, args.port) as client:
                 corl = CoRL2017(args.city_name, args.log_name)
-
                 results = corl.benchmark_agent(agent, client)
                 corl.plot_summary_test()
                 corl.plot_summary_train()
