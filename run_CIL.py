@@ -54,7 +54,6 @@ if (__name__ == '__main__'):
     )
     argparser.add_argument(
          '--continue-experiment',
-        metavar='CE',
         action='store_true',
         help='If you want to continue the experiment with the given log name'
     )
