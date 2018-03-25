@@ -52,7 +52,15 @@ if (__name__ == '__main__'):
         action='store_false',
         help=' Uses the speed prediction branch to avoid unwanted agent stops'
     )
-    
+    argparser.add_argument(
+         '--continue-experiment',
+        metavar='CE',
+        action='store_true',
+        help='If you want to continue the experiment with the given log name'
+    )
+
+    #continue_experiment
+
     args = argparser.parse_args()
 
     log_level = logging.DEBUG if args.debug else logging.INFO
@@ -66,7 +74,7 @@ if (__name__ == '__main__'):
         try:
 
             with make_carla_client(args.host, args.port) as client:
-                corl = CoRL2017(args.city_name, args.log_name)
+                corl = CoRL2017(args.city_name, args.log_name, continue_experiment=args.continue_experiment)
                 results = corl.benchmark_agent(agent, client)
                 corl.plot_summary_test()
                 corl.plot_summary_train()
