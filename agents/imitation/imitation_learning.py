@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 
 import scipy
@@ -75,7 +77,7 @@ class ImitationLearning(Agent):
 
         ckpt = tf.train.get_checkpoint_state(self._models_path)
         if ckpt:
-            print 'Restoring from ', ckpt.model_checkpoint_path
+            print('Restoring from ', ckpt.model_checkpoint_path)
             saver.restore(self._sess, ckpt.model_checkpoint_path)
         else:
             ckpt = 0
@@ -156,7 +158,7 @@ class ImitationLearning(Agent):
         else:
             all_net = branches[1]
 
-        print control_input
+        print(control_input)
 
         feedDict = {x: image_input, input_speed: speed, dout: [1] * len(self.dropout_vec)}
 
