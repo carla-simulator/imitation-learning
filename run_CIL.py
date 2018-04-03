@@ -58,8 +58,6 @@ if (__name__ == '__main__'):
         help='If you want to continue the experiment with the given log name'
     )
 
-    #continue_experiment
-
     args = argparser.parse_args()
 
     log_level = logging.DEBUG if args.debug else logging.INFO

@@ -9,7 +9,6 @@ slim = tf.contrib.slim
 
 from carla.benchmarks.agent import Agent
 from carla.carla_server_pb2 import Control
-
 from agents.imitation.imitation_learning_network import load_imitation_learning_network
 
 
@@ -30,13 +29,15 @@ class ImitationLearning(Agent):
         config_gpu.gpu_options.per_process_gpu_memory_fraction = memory_fraction
 
         self._image_size = (88, 200, 3)
-        self._avoid_stopping =  avoid_stopping
+        self._avoid_stopping = avoid_stopping
 
         self._sess = tf.Session(config=config_gpu)
 
         with tf.device('/gpu:0'):
-            self._input_images = tf.placeholder("float", shape=[None, self._image_size[0], self._image_size[1],
-                                                                self._image_size[2]], name="input_image")
+            self._input_images = tf.placeholder("float", shape=[None, self._image_size[0],
+                                                                self._image_size[1],
+                                                                self._image_size[2]],
+                                                name="input_image")
 
             self._input_data = []
 
@@ -49,7 +50,8 @@ class ImitationLearning(Agent):
             self._dout = tf.placeholder("float", shape=[len(self.dropout_vec)])
 
         with tf.name_scope("Network"):
-            self._network_tensor = load_imitation_learning_network(self._input_images, self._input_data,
+            self._network_tensor = load_imitation_learning_network(self._input_images,
+                                                                   self._input_data,
                                                                    self._image_size, self._dout)
 
         import os
@@ -82,19 +84,10 @@ class ImitationLearning(Agent):
 
         return ckpt
 
-    def run_step(self, measurements, sensor_data, target):
-
-        direction = self._planner.get_next_command(
-            (measurements.player_measurements.transform.location.x,
-             measurements.player_measurements.transform.location.y, 22),
-            (measurements.player_measurements.transform.orientation.x,
-             measurements.player_measurements.transform.orientation.y,
-             measurements.player_measurements.transform.orientation.z),
-            (target.location.x, target.location.y, 22),
-            (target.orientation.x, target.orientation.y, -0.001))
-
+    def run_step(self, measurements, sensor_data, directions, target):
+        print 'DIRECTION ',directions
         control = self._compute_action(sensor_data['CameraRGB'].data,
-                                       measurements.player_measurements.forward_speed, direction)
+                                       measurements.player_measurements.forward_speed, directions)
 
         return control
 
@@ -139,8 +132,8 @@ class ImitationLearning(Agent):
         dout = self._dout
         input_speed = self._input_data[1]
 
-
-        image_input = image_input.reshape((1, self._image_size[0], self._image_size[1], self._image_size[2]))
+        image_input = image_input.reshape(
+            (1, self._image_size[0], self._image_size[1], self._image_size[2]))
 
         # Normalize with the maximum speed from the training set ( 90 km/h)
         speed = np.array(speed / 90.0)
@@ -156,7 +149,6 @@ class ImitationLearning(Agent):
         else:
             all_net = branches[1]
 
-        print control_input
 
         feedDict = {x: image_input, input_speed: speed, dout: [1] * len(self.dropout_vec)}
 
@@ -175,13 +167,13 @@ class ImitationLearning(Agent):
 
             real_predicted = predicted_speed * 90.0
             if real_speed < 5.0 and real_predicted > 6.0:
-                # If (Car Stooped) and ( It should not have stopped, use the speed prediction branch for that
+                # If (Car Stooped) and
+                #  ( It should not have stopped, use the speed prediction branch for that)
 
                 predicted_acc = 1 * (20.0 / 90.0 - speed) + predicted_acc
 
                 predicted_brake = 0.0
 
                 predicted_acc = predicted_acc[0][0]
-
 
         return predicted_steers, predicted_acc, predicted_brake
