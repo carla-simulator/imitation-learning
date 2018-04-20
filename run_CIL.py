@@ -1,21 +1,18 @@
 import argparse
 import logging
-import sys
 
-from carla.benchmarks.corl_2017 import CoRL2017
+from carla.driving_benchmark import run_driving_benchmark
+from carla.driving_benchmark.experiment_suite import CoRL2017
 
-from carla.tcp import TCPConnectionError
-from carla.client import make_carla_client
 from agents.imitation.imitation_learning import ImitationLearning
-import time
 
 try:
     from carla import carla_server_pb2 as carla_protocol
 except ImportError:
-    raise RuntimeError('cannot import "carla_server_pb2.py", run the protobuf compiler to generate this file')
+    raise RuntimeError(
+        'cannot import "carla_server_pb2.py", run the protobuf compiler to generate this file')
 
 if (__name__ == '__main__'):
-
     argparser = argparse.ArgumentParser(description=__doc__)
     argparser.add_argument(
         '-v', '--verbose',
@@ -53,7 +50,7 @@ if (__name__ == '__main__'):
         help=' Uses the speed prediction branch to avoid unwanted agent stops'
     )
     argparser.add_argument(
-         '--continue-experiment',
+        '--continue-experiment',
         action='store_true',
         help='If you want to continue the experiment with the given log name'
     )
@@ -67,20 +64,9 @@ if (__name__ == '__main__'):
 
     agent = ImitationLearning(args.city_name, args.avoid_stopping)
 
-    while True:
-        try:
+    corl = CoRL2017(args.city_name)
 
-            with make_carla_client(args.host, args.port) as client:
-                corl = CoRL2017(args.city_name, args.log_name, continue_experiment=args.continue_experiment)
-                results = corl.benchmark_agent(agent, client)
-                corl.plot_summary_test()
-                corl.plot_summary_train()
-
-                break
-
-        except TCPConnectionError as error:
-            logging.error(error)
-            time.sleep(1)
-        except Exception as exception:
-            logging.exception(exception)
-            sys.exit(1)
+    # Now actually run the driving_benchmark
+    run_driving_benchmark(agent, corl, args.city_name,
+                          args.log_name, args.continue_experiment,
+                          args.host, args.port)

@@ -85,7 +85,7 @@ class ImitationLearning(Agent):
         return ckpt
 
     def run_step(self, measurements, sensor_data, directions, target):
-        print 'DIRECTION ',directions
+
         control = self._compute_action(sensor_data['CameraRGB'].data,
                                        measurements.player_measurements.forward_speed, directions)
 
@@ -112,7 +112,7 @@ class ImitationLearning(Agent):
             brake = 0.0
 
         # We limit speed to 35 km/h to avoid
-        if speed > 35.0 and brake == 0.0:
+        if speed > 10.0 and brake == 0.0:
             acc = 0.0
 
         control = Control()
@@ -136,7 +136,7 @@ class ImitationLearning(Agent):
             (1, self._image_size[0], self._image_size[1], self._image_size[2]))
 
         # Normalize with the maximum speed from the training set ( 90 km/h)
-        speed = np.array(speed / 90.0)
+        speed = np.array(speed / 25.0)
 
         speed = speed.reshape((1, 1))
 
@@ -148,7 +148,6 @@ class ImitationLearning(Agent):
             all_net = branches[3]
         else:
             all_net = branches[1]
-
 
         feedDict = {x: image_input, input_speed: speed, dout: [1] * len(self.dropout_vec)}
 
@@ -163,14 +162,14 @@ class ImitationLearning(Agent):
         if self._avoid_stopping:
             predicted_speed = sess.run(branches[4], feed_dict=feedDict)
             predicted_speed = predicted_speed[0][0]
-            real_speed = speed * 90.0
+            real_speed = speed * 25.0
 
-            real_predicted = predicted_speed * 90.0
-            if real_speed < 5.0 and real_predicted > 6.0:
+            real_predicted = predicted_speed * 25.0
+            if real_speed < 2.0 and real_predicted > 3.0:
                 # If (Car Stooped) and
                 #  ( It should not have stopped, use the speed prediction branch for that)
 
-                predicted_acc = 1 * (20.0 / 90.0 - speed) + predicted_acc
+                predicted_acc = 1 * (5.6 / 25.0 - speed) + predicted_acc
 
                 predicted_brake = 0.0
 
