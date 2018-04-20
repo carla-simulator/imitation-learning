@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 
 import scipy
@@ -77,7 +79,7 @@ class ImitationLearning(Agent):
 
         ckpt = tf.train.get_checkpoint_state(self._models_path)
         if ckpt:
-            print 'Restoring from ', ckpt.model_checkpoint_path
+            print('Restoring from ', ckpt.model_checkpoint_path)
             saver.restore(self._sess, ckpt.model_checkpoint_path)
         else:
             ckpt = 0
