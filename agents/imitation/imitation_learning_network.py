@@ -11,7 +11,8 @@ def weight_ones(shape, name):
 
 
 def weight_xavi_init(shape, name):
-    initial = tf.get_variable(name=name, shape=shape, initializer=tf.contrib.layers.xavier_initializer())
+    initial = tf.get_variable(name=name, shape=shape,
+                              initializer=tf.contrib.layers.xavier_initializer())
     return initial
 
 
@@ -70,7 +71,8 @@ class Network(object):
     def bn(self, x):
         self._count_bn += 1
         return tf.contrib.layers.batch_norm(x, is_training=False,
-                                            updates_collections=None, scope='bn' + str(self._count_bn))
+                                            updates_collections=None,
+                                            scope='bn' + str(self._count_bn))
 
     def activation(self, x):
         self._count_activations += 1
