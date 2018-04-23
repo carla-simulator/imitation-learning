@@ -72,8 +72,9 @@ They are stored on the "dataset" vector.
 23. Orientation Y, float 
 24. Orientation Z, float 
 25. High level command, int ( 2 Follow lane, 3 Left, 4 Right, 5 Straight) 
-26. Noise, Boolean ( If the noise, perturbation, is activated) 
-27. Camera ( which camera was used) 
+26. Noise, Boolean ( If the noise, perturbation, is activated, (Not Used) ) 
+27. Camera (Which camera was used) 
+28. Angle (The yaw angle for this camera)
 
 
 
