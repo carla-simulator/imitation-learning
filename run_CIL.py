@@ -2,7 +2,7 @@ import argparse
 import logging
 
 from carla.driving_benchmark import run_driving_benchmark
-from carla.driving_benchmark.experiment_suite import CoRL2017
+from carla.driving_benchmark.experiment_suites import CoRL2017
 
 from agents.imitation.imitation_learning import ImitationLearning
 

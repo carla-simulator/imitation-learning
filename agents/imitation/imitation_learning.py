@@ -7,7 +7,7 @@ import numpy as np
 
 slim = tf.contrib.slim
 
-from carla.benchmarks.agent import Agent
+from carla.agent import Agent
 from carla.carla_server_pb2 import Control
 from agents.imitation.imitation_learning_network import load_imitation_learning_network
 
@@ -16,7 +16,7 @@ class ImitationLearning(Agent):
 
     def __init__(self, city_name, avoid_stopping, memory_fraction=0.25, image_cut=[115, 510]):
 
-        Agent.__init__(self, city_name)
+        Agent.__init__(self)
 
         self.dropout_vec = [1.0] * 8 + [0.7] * 2 + [0.5] * 2 + [0.5] * 1 + [0.5, 1.] * 5
 
