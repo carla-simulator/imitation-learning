@@ -13,9 +13,7 @@ numpy
 
 scipy
 
-carla 0.7.1
-
-future
+carla 0.8.2
 
 PIL
 
