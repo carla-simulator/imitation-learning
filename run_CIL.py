@@ -2,7 +2,7 @@ import argparse
 import logging
 
 from carla.driving_benchmark import run_driving_benchmark
-from carla.driving_benchmark.experiment_suites import CoRL2017
+from carla.driving_benchmark.experiment_suites import LongitudinalControl2018
 
 from agents.imitation.imitation_learning import ImitationLearning
 
@@ -64,7 +64,7 @@ if (__name__ == '__main__'):
 
     agent = ImitationLearning(args.city_name, args.avoid_stopping)
 
-    corl = CoRL2017(args.city_name)
+    corl = LongitudinalControl2018(args.city_name)
 
     # Now actually run the driving_benchmark
     run_driving_benchmark(agent, corl, args.city_name,
