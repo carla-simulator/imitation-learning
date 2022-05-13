@@ -38,7 +38,7 @@ Dataset
 The data is stored on HDF5 files.
 Each HDF5 file contains 200 data points.
 The HDF5 contains two "datasets":
-'images_center': <br>
+'rgb': <br>
 The RGB images stored at 200x88 resolution
 
 'targets': <br>
